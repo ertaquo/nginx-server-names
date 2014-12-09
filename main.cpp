@@ -12,16 +12,21 @@ using namespace std;
 int main(int argc, char ** argv) {
   const char * config_file = DEFAULT_CONFIG_FILE;
   bool one_line = false;
+  bool dump = false;
 
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "--help") == 0) {
-      printf("nginx-server-names [nginx-config-file] [--one-line|-1]\n");
+      printf("nginx-server-names [nginx-config-file] [--one-line|-1] [--dump]\n");
       printf("  Default config file: %s\n", DEFAULT_CONFIG_FILE);
       printf("  --one-one | -1   - display all server names in single line\n");
+      printf("  --dump           - dump entire config instead of server names");
       return 0;
     }
     else if (strcmp(argv[i], "--one-line") == 0 || strcmp(argv[i], "-1") == 0) {
       one_line = true;
+    }
+    else if (strcmp(argv[i], "--dump") == 0) {
+      dump = true;
     }
     else {
       config_file = argv[i];
@@ -34,7 +39,11 @@ int main(int argc, char ** argv) {
     return 1;
   }
 
-  //dumpConfig(stdout, root);
+  if (dump) {
+    dumpConfig(stdout, root);
+    freeConfig(root);
+    return 1;
+  }
 
   list<ConfigEntry *> entries;
   listAllEntries(root, "server_name", entries);
