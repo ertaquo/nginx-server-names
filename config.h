@@ -59,11 +59,6 @@ void freeConfig(ConfigEntry * config) {
   delete config;
 }
 
-bool __configIsAlpha(char c) {
-  // without ', ", ;, {, }, #
-  return strchr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@$%^&*()-_=+/\\><:[],.?|", c);
-}
-
 // filename - only for errors
 // source - config source to be parsed
 ConfigEntry * parseConfig(const char * filename, const char * source) {
@@ -141,11 +136,6 @@ ConfigEntry * parseConfig(const char * filename, const char * source) {
         // skip whitespaces
         if (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
         }
-        // if alpha char
-        else if (__configIsAlpha(c)) {
-          state = 'o'; // switch to operand
-          curr_str = c;
-        }
         // if quotes
         else if (c == '\'' || c == '"') {
           state = 'o'; // switch to operand
@@ -167,7 +157,8 @@ ConfigEntry * parseConfig(const char * filename, const char * source) {
           }
         }
         else {
-          error = "invalid character";
+          state = 'o'; // switch to operand
+          curr_str = c;
         }
 
         break;
@@ -198,10 +189,6 @@ ConfigEntry * parseConfig(const char * filename, const char * source) {
 
           state = 'a'; // argument
         }
-        // alpha char
-        else if (__configIsAlpha(c)) {
-          curr_str += c;
-        }
         // entry closure
         else if (c == ';') {
           currEntry = NULL;
@@ -214,7 +201,7 @@ ConfigEntry * parseConfig(const char * filename, const char * source) {
           state = 0;
         }
         else {
-          error = "invalid operand";
+          curr_str += c;
         }
 
         break;
@@ -225,10 +212,6 @@ ConfigEntry * parseConfig(const char * filename, const char * source) {
             currEntry->arguments.push_back(curr_str);
             curr_str = "";
           }
-        }
-        // alpha char
-        else if (__configIsAlpha(c)) {
-          curr_str += c;
         }
         // quotes
         else if (c == '\'' || c == '"') {
@@ -253,7 +236,7 @@ ConfigEntry * parseConfig(const char * filename, const char * source) {
           state = 0;
         }
         else {
-          error = "invalid argument";
+          curr_str += c;
         }
 
         break;
