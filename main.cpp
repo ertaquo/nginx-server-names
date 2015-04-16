@@ -19,7 +19,7 @@ int main(int argc, char ** argv) {
       printf("nginx-server-names [nginx-config-file] [--one-line|-1] [--dump]\n");
       printf("  Default config file: %s\n", DEFAULT_CONFIG_FILE);
       printf("  --one-one | -1   - display all server names in single line\n");
-      printf("  --dump           - dump entire config instead of server names");
+      printf("  --dump           - dump entire config instead of server names\n");
       return 0;
     }
     else if (strcmp(argv[i], "--one-line") == 0 || strcmp(argv[i], "-1") == 0) {
