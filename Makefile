@@ -14,3 +14,6 @@ nginx-server-names: $(OBJ)
 
 clean:
 	rm -f *.o nginx-server-names
+
+install:
+	install ./nginx-server-names /usr/local/bin/
