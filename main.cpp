@@ -19,12 +19,12 @@ int main(int argc, char ** argv) {
 
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-?") == 0) {
-      printf("nginx-server-names [nginx-config-file] [--help|-h|-?] [--one-line|-1] [--depth <depth>|-d <depth>] \n");
+      printf("nginx-server-names [nginx-config-file] [--help|-h|-?] [--one-line|-1] [--depth <depth>|-d<depth>] \n");
       printf("                   [--skip-wildcard|-w] [--dump]\n\n");
       printf("  Default config filename: %s\n\n", DEFAULT_CONFIG_FILE);
       printf("  --help | -h | -?              - display this help\n");
       printf("  --one-one | -1                - display all server names in single line\n");
-      printf("  --depth <depth> | -d <depth>  - domain name depth (1 for TLDs, 2 for domains, 3 for subdomains etc.)\n");
+      printf("  --depth <depth> | -d<depth>   - domain name depth (1 for TLDs, 2 for domains, 3 for subdomains etc.)\n");
       printf("  --skip-wildcards | -w         - skip server names with wildcards and regular expressions \n");
       printf("                                  (RFC 1035 matching only)\n");
       printf("  --dump                        - dump entire config instead of server names\n");
@@ -42,10 +42,11 @@ int main(int argc, char ** argv) {
         depth = -1;
       }
 
-      if (depth < 1) {
-        fprintf(stderr, "Invalid depth.\n");
-        return 1;
-      }
+    }
+    // -d<depth>
+    else if (argv[i][0] == '-' && argv[i][1] == 'd' && argv[i][2] >= '0' && argv[i][2] <= '9') {
+      use_depth = true;
+      depth = atoi(argv[i] + 2);
     }
     else if (strcmp(argv[i], "--skip-wildcards") == 0 || strcmp(argv[i], "-w") == 0) {
       skip_wildcards = true;
@@ -56,6 +57,11 @@ int main(int argc, char ** argv) {
     else {
       config_file = argv[i];
     }
+  }
+
+  if (use_depth && depth < 1) {
+    fprintf(stderr, "Invalid depth.\n");
+    return 1;
   }
 
   ConfigEntry * root = loadConfig(config_file);
