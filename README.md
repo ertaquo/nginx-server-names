@@ -5,7 +5,7 @@ Lists server names from nginx config.
 
 #### Usage ####
 
-`nginx-server-names [nginx-config-file] [--help|-h|-?] [--one-line|-1] [--depth <depth>|-d<depth>] [--skip-wildcard|-w] [--dump]`
+`nginx-server-names [nginx-config-file] [--help|-h|-?] [--one-line|-1] [--depth <depth>|-d<depth>] [--skip-wildcards|-w] [--dump]`
 
 Default config filename: `/etc/nginx/nginx.conf`
 
