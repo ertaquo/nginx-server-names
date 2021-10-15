@@ -20,7 +20,7 @@ int main(int argc, char ** argv) {
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-?") == 0) {
       printf("nginx-server-names [nginx-config-file] [--help|-h|-?] [--one-line|-1] [--depth <depth>|-d<depth>] \n");
-      printf("                   [--skip-wildcard|-w] [--dump]\n\n");
+      printf("                   [--skip-wildcards|-w] [--dump]\n\n");
       printf("  Default config filename: %s\n\n", DEFAULT_CONFIG_FILE);
       printf("  --help | -h | -?              - display this help\n");
       printf("  --one-one | -1                - display all server names in single line\n");
